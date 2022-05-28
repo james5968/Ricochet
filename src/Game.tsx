@@ -10,6 +10,7 @@ import {
   useValueEffect,
   runTiming,
   Text,
+  useFont,
 } from '@shopify/react-native-skia';
 import React, {useState} from 'react';
 import {useWindowDimensions} from 'react-native';
@@ -21,7 +22,7 @@ const createGrid = (x: number, y: number, width: number, height: number) => {
     for (let j = 0; j < y; j++) {
       grid.push({
         x: i * (width / x) + 7.5,
-        y: j * (height + 15) + 100,
+        y: j * (height + 15) + 150,
         width: (width - 50) / x - 2.5,
         height,
         active: true,
@@ -33,10 +34,12 @@ const createGrid = (x: number, y: number, width: number, height: number) => {
 };
 
 const PADDLE_WIDTH = 85;
-const BALL_SPEED_Y = 6;
+const BALL_SPEED_Y = 10;
 const BALL_SPEED_X = 9;
 
 const Game = () => {
+  const font = useFont(require('./assets/fonts/AlmaMono-Thin.otf'), 32);
+
   const {height, width} = useWindowDimensions();
   const cx = useValue(width / 2 - PADDLE_WIDTH / 2);
   const insets = useSafeAreaInsets();
@@ -155,7 +158,9 @@ const Game = () => {
       }
     },
   });
-
+  if (font === null) {
+    return null;
+  }
   return (
     <Canvas
       style={{
@@ -165,13 +170,15 @@ const Game = () => {
       onTouch={touchHandler}>
       <Rect x={0} y={0} width={width} height={height + 50} color="black" />
       <Text
-        x={width / 2 - 10}
-        y={insets.top + 35}
-        text={`${score.current}`}
-        familyName="serif"
-        size={32}
-        color="white"
-      />
+        x={width / 2 - 22}
+        y={insets.top + 50}
+        text={`${score.current < 10 ? '0' : ''}${score.current}`}
+        font={font}
+        color="white">
+        <Paint color="white" opacity={0.8}>
+          <Blur blur={4} />
+        </Paint>
+      </Text>
       {targetGrid.map((gridItem, index) =>
         gridItem.active ? (
           <Rect
@@ -179,9 +186,12 @@ const Game = () => {
             x={gridItem.x}
             y={gridItem.y}
             width={gridItem.width}
-            height={gridItem.height}
-            color={gridItem.color}
-          />
+            height={gridItem.height}>
+            <Paint color={gridItem.color} style="stroke" strokeWidth={2} />
+            <Paint color={gridItem.color} style="stroke" strokeWidth={2}>
+              <Blur blur={4} mode="clamp" />
+            </Paint>
+          </Rect>
         ) : null,
       )}
 
@@ -190,31 +200,30 @@ const Game = () => {
         y={height - insets.bottom - 32}
         width={PADDLE_WIDTH}
         height={20}>
-        <Paint antiAlias color="white" style="stroke" strokeWidth={4} />
-        <Paint antiAlias color="white" style="stroke" strokeWidth={4}>
+        <Paint color="white" style="stroke" strokeWidth={2} />
+        <Paint color="white" style="stroke" strokeWidth={2}>
           <Blur blur={4} mode="clamp" />
         </Paint>
       </Rect>
-      <Circle cx={ballX} cy={ballY} r={8} color="white">
-        <Paint antiAlias color="white" style="stroke" strokeWidth={3.5}>
-          <Blur blur={2} />
+      <Circle cx={ballX} cy={ballY} r={8}>
+        <Paint color="white" style="stroke" strokeWidth={2} />
+        <Paint color="white" style="stroke" strokeWidth={2}>
+          <Blur blur={3} />
         </Paint>
       </Circle>
       <Text
         x={width / 2 - 100}
         y={height / 2}
         text="GAME OVER"
-        familyName="serif"
-        size={32}
+        font={font}
         color="white"
         opacity={gameOverOpacity}
       />
       <Text
-        x={width / 2 - 100}
+        x={width / 2 - 82}
         y={height / 2}
-        text={`YOU WIN! ${score.current}`}
-        familyName="serif"
-        size={32}
+        text={`YOU WIN`}
+        font={font}
         color="white"
         opacity={onWinOpacity}
       />

@@ -14,6 +14,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-ricochet-ricochetTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ricochet-ricochetTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		17A5D53C5273488BB6F02255 /* AlmaMono-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2DF27038432B42439445EDBC /* AlmaMono-Bold.otf */; };
+		E975E84F48714B0A9EEF075D /* AlmaMono-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = B096008FFEB74E84ABD4BF4F /* AlmaMono-Heavy.otf */; };
+		E4E2351A457746DAAA41918C /* AlmaMono-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 45AAC49AFFD3461FB72A191C /* AlmaMono-Light.otf */; };
+		71128436AACC4741A7A9A8E0 /* AlmaMono-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 85279E1FBDE04683ADEB4C8A /* AlmaMono-Regular.otf */; };
+		C4E43A5C182846F59F55AB29 /* AlmaMono-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = AB3514375F1149D695E5DAE1 /* AlmaMono-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,11 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ricochet/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ricochet-ricochetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ricochet-ricochetTests.release.xcconfig"; path = "Target Support Files/Pods-ricochet-ricochetTests/Pods-ricochet-ricochetTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		2DF27038432B42439445EDBC /* AlmaMono-Bold.otf */ = {isa = PBXFileReference; name = "AlmaMono-Bold.otf"; path = "../assets/fonts/AlmaMono-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B096008FFEB74E84ABD4BF4F /* AlmaMono-Heavy.otf */ = {isa = PBXFileReference; name = "AlmaMono-Heavy.otf"; path = "../assets/fonts/AlmaMono-Heavy.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		45AAC49AFFD3461FB72A191C /* AlmaMono-Light.otf */ = {isa = PBXFileReference; name = "AlmaMono-Light.otf"; path = "../assets/fonts/AlmaMono-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		85279E1FBDE04683ADEB4C8A /* AlmaMono-Regular.otf */ = {isa = PBXFileReference; name = "AlmaMono-Regular.otf"; path = "../assets/fonts/AlmaMono-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AB3514375F1149D695E5DAE1 /* AlmaMono-Thin.otf */ = {isa = PBXFileReference; name = "AlmaMono-Thin.otf"; path = "../assets/fonts/AlmaMono-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +132,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				14AA08CF4C1B4AB3A2D8477A /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +158,19 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		14AA08CF4C1B4AB3A2D8477A /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				2DF27038432B42439445EDBC /* AlmaMono-Bold.otf */,
+				B096008FFEB74E84ABD4BF4F /* AlmaMono-Heavy.otf */,
+				45AAC49AFFD3461FB72A191C /* AlmaMono-Light.otf */,
+				85279E1FBDE04683ADEB4C8A /* AlmaMono-Regular.otf */,
+				AB3514375F1149D695E5DAE1 /* AlmaMono-Thin.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +268,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				17A5D53C5273488BB6F02255 /* AlmaMono-Bold.otf in Resources */,
+				E975E84F48714B0A9EEF075D /* AlmaMono-Heavy.otf in Resources */,
+				E4E2351A457746DAAA41918C /* AlmaMono-Light.otf in Resources */,
+				71128436AACC4741A7A9A8E0 /* AlmaMono-Regular.otf in Resources */,
+				C4E43A5C182846F59F55AB29 /* AlmaMono-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,7 +589,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -631,7 +660,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
