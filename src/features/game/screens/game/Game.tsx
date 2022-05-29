@@ -1,8 +1,6 @@
 import {
-  Blur,
   Canvas,
   Circle,
-  Paint,
   Rect,
   useClockValue,
   useTouchHandler,
@@ -13,37 +11,35 @@ import {
   useFont,
 } from '@shopify/react-native-skia';
 import React, {useState} from 'react';
-import {useWindowDimensions} from 'react-native';
+import {Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import GridBlock from './components/GridBlock/GridBlock';
+import {styles} from './Game.styles';
 
-const createGrid = (x: number, y: number, width: number, height: number) => {
-  const grid = [];
-  for (let i = 0; i < x; i++) {
-    for (let j = 0; j < y; j++) {
-      grid.push({
-        x: i * (width / x) + 7.5,
-        y: j * (height + 15) + 150,
-        width: (width - 50) / x - 2.5,
-        height,
-        active: true,
-        color: 'white',
-      });
-    }
-  }
-  return grid;
-};
+type GridType = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  active: boolean;
+  color: string;
+}[];
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const PADDLE_WIDTH = 85;
-const BALL_SPEED_Y = 10;
-const BALL_SPEED_X = 9;
+const BALL_SPEED_Y = 9;
+const BALL_SPEED_X = 8;
+const X_COUNT = 5;
+const Y_COUNT = 6;
+const GRIDE_COUNT = X_COUNT * Y_COUNT;
 
 const Game = () => {
   const font = useFont(require('./assets/fonts/AlmaMono-Thin.otf'), 32);
 
-  const {height, width} = useWindowDimensions();
   const cx = useValue(width / 2 - PADDLE_WIDTH / 2);
   const insets = useSafeAreaInsets();
-  const [targetGrid, setTargetGrid] = useState(createGrid(4, 4, width, 25));
   const clock = useClockValue();
   const ballY = useValue(height - insets.bottom - 42);
   const ballX = useValue(width / 2);
@@ -55,12 +51,11 @@ const Game = () => {
   const onWinOpacity = useValue(0);
   const onGameOver = () => {
     runTiming(gameOverOpacity, 1);
-    setTargetGrid(createGrid(4, 4, width, 25));
   };
   const onWin = () => {
     runTiming(onWinOpacity, 1);
-    setTargetGrid(createGrid(4, 4, width, 25));
   };
+
   useValueEffect(clock, () => {
     if (gameStarted.current === 1) {
       //Y Handlers
@@ -101,38 +96,6 @@ const Game = () => {
         yDirection.current = 1;
         xDirection.current = Math.round(Math.random());
       }
-
-      //Grid Handlers
-      const hasWon = targetGrid.some(gridItem => gridItem.active === true);
-      if (!hasWon) {
-        onWin();
-
-        gameStarted.current = 0;
-      } else {
-        targetGrid.forEach((gridItem, index) => {
-          if (gridItem.active) {
-            if (
-              ballY.current <= gridItem.y + gridItem.height &&
-              ballY.current >= gridItem.y
-            ) {
-              if (
-                ballX.current >= gridItem.x &&
-                ballX.current <= gridItem.x + gridItem.width
-              ) {
-                if (yDirection.current === 1) {
-                  yDirection.current = 0;
-                } else {
-                  yDirection.current = 1;
-                }
-                score.current += 1;
-                const mutatedGrid = [...targetGrid];
-                mutatedGrid[index].active = false;
-                setTargetGrid(mutatedGrid);
-              }
-            }
-          }
-        });
-      }
     }
   });
 
@@ -162,55 +125,39 @@ const Game = () => {
     return null;
   }
   return (
-    <Canvas
-      style={{
-        flex: 1,
-        backgroundColor: 'black',
-      }}
-      onTouch={touchHandler}>
+    <Canvas style={styles.canvas} onTouch={touchHandler}>
       <Rect x={0} y={0} width={width} height={height + 50} color="black" />
       <Text
         x={width / 2 - 22}
         y={insets.top + 50}
         text={`${score.current < 10 ? '0' : ''}${score.current}`}
         font={font}
-        color="white">
-        <Paint color="white" opacity={0.8}>
-          <Blur blur={4} />
-        </Paint>
-      </Text>
-      {targetGrid.map((gridItem, index) =>
-        gridItem.active ? (
-          <Rect
-            key={index}
-            x={gridItem.x}
-            y={gridItem.y}
-            width={gridItem.width}
-            height={gridItem.height}>
-            <Paint color={gridItem.color} style="stroke" strokeWidth={2} />
-            <Paint color={gridItem.color} style="stroke" strokeWidth={2}>
-              <Blur blur={4} mode="clamp" />
-            </Paint>
-          </Rect>
-        ) : null,
-      )}
+        color="white"
+      />
+
+      {Array.from(Array(GRIDE_COUNT), (_, i) => (
+        <GridBlock
+          index={i}
+          key={i}
+          clock={clock}
+          ballX={ballX}
+          ballY={ballY}
+          yDirection={yDirection}
+          xCount={X_COUNT}
+          score={score}
+        />
+      ))}
 
       <Rect
         x={cx}
         y={height - insets.bottom - 32}
         width={PADDLE_WIDTH}
-        height={20}>
-        <Paint color="white" style="stroke" strokeWidth={2} />
-        <Paint color="white" style="stroke" strokeWidth={2}>
-          <Blur blur={4} mode="clamp" />
-        </Paint>
-      </Rect>
-      <Circle cx={ballX} cy={ballY} r={8}>
-        <Paint color="white" style="stroke" strokeWidth={2} />
-        <Paint color="white" style="stroke" strokeWidth={2}>
-          <Blur blur={3} />
-        </Paint>
-      </Circle>
+        height={20}
+        color="white"
+      />
+
+      <Circle cx={ballX} cy={ballY} r={8} color="white" />
+
       <Text
         x={width / 2 - 100}
         y={height / 2}
