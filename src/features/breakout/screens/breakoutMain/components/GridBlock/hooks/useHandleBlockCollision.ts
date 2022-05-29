@@ -1,7 +1,11 @@
-import {SkiaValue, useValueEffect} from '@shopify/react-native-skia';
+import {
+  SkiaClockValue,
+  SkiaValue,
+  useValueEffect,
+} from '@shopify/react-native-skia';
 
 export const useHandleBlockCollision = (
-  clock: SkiaValue,
+  clock: SkiaClockValue,
   active: SkiaValue,
   ballX: SkiaValue,
   ballY: SkiaValue,
@@ -13,7 +17,7 @@ export const useHandleBlockCollision = (
   y: number,
 ) => {
   useValueEffect(clock, () => {
-    if (active.current === 1) {
+    if (active.current !== 0) {
       if (ballY.current <= y + height && ballY.current >= y) {
         if (ballX.current >= x && ballX.current <= x + width) {
           if (yDirection.current === 1) {

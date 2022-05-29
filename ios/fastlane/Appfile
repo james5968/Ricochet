@@ -1,0 +1,8 @@
+app_identifier("com.jamesashford.ricochet") # The bundle identifier of your app
+apple_id("contact@james-ashford.com") # Your Apple email address
+
+itc_team_id("125065173") # App Store Connect Team ID
+team_id("8QNZAR5R7H") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

@@ -1,7 +1,5 @@
 import {useValue} from '@shopify/react-native-skia';
-import {Dimensions} from 'react-native';
-
-const windowWidth = Dimensions.get('window').width;
+import {windowWidth} from 'src/shared/constants/dimensions';
 
 export const useGetGridPosition = (
   index: number,

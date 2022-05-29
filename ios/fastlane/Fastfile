@@ -1,0 +1,69 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  lane :build do |options|
+  build_app(
+    workspace: "./ricochet.xcworkspace",
+    scheme: "ricochet",
+    skip_package_ipa: true,
+    skip_archive: true,
+    skip_codesigning: true,
+    xcargs: "ONLY_ACTIVE_ARCH=YES", # since for this demo we skip_codesigning, the build will be done for a simulator, and since XCode 12, this means arm64, thus build failing. Semaphore is running on x86 chips.
+    silent: true, # less logs
+    clean: true # clean before build making sure no caching issues
+  )
+end
+  desc "Push a new release build to the App Store"
+  lane :release do
+    increment_build_number(xcodeproj: "ricochet.xcodeproj")
+    build_app(workspace: "ricochet.xcworkspace", scheme: "ricochet")
+    upload_to_app_store
+  end
+  lane :beta do
+    increment_build_number(xcodeproj: "ricochet.xcodeproj")
+     get_certificates( # Create or get certificate, and install it
+      output_path: "./builds" # Download certificate in the build folder (you don't need to create the folder)
+    )
+    get_provisioning_profile( # Create or get provisioning profile
+      output_path: "./builds",  # Download provisioning profile in the build folder
+      filename: "provisioning.mobileprovision" # Rename the local provisioning profile
+    )
+    update_project_provisioning( # Set the project provisioning profile (related in Xcode to the General > Signing Release section)
+      xcodeproj: "ricochet.xcodeproj",
+      target_filter: "Ricochet", # Name of your project
+      profile: "./builds/provisioning.mobileprovision",
+      build_configuration: "Release"
+    )
+    update_project_team( # Set the right team on your project
+      teamid: CredentialsManager::AppfileConfig.try_fetch_value(:team_id)
+    )
+    build_app(
+    workspace: "ricochet.xcworkspace", 
+    scheme: "Release", 
+    clean: true,
+    export_method: "app-store",
+    export_options: {
+      provisioningProfiles: {
+          CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) => CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) + " AppStore" # Value of this parameter is the name of the Provisioning Profile. By default, it will be "{bundleId} AppStore"
+      }
+    },
+    build_path: "./builds",
+    output_directory: "./builds")
+    upload_to_testflight
+end
+end

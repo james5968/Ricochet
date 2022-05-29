@@ -1,16 +1,18 @@
 import React from 'react';
-import {Rect, SkiaValue} from '@shopify/react-native-skia';
+import {Rect, SkiaClockValue, SkiaValue} from '@shopify/react-native-skia';
 import {useGetGridPosition} from './hooks/useGetBlockPosition';
 import {useHandleBlockCollision} from './hooks/useHandleBlockCollision';
+import {useResetOnGameEnd} from './hooks/useResetOnGameEnd';
 
 type PropsType = {
   index: number;
   xCount: number;
   ballX: SkiaValue;
   ballY: SkiaValue;
-  clock: SkiaValue;
+  clock: SkiaClockValue;
   yDirection: SkiaValue;
   score: SkiaValue;
+  gameStarted: SkiaValue;
 };
 
 const GridBlock = ({
@@ -21,6 +23,7 @@ const GridBlock = ({
   clock,
   yDirection,
   score,
+  gameStarted,
 }: PropsType) => {
   const {x, y, width, height, color, active} = useGetGridPosition(
     index,
@@ -39,6 +42,7 @@ const GridBlock = ({
     height,
     y,
   );
+  useResetOnGameEnd(gameStarted, active);
   return (
     <Rect
       key={index}

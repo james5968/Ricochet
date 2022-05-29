@@ -2,7 +2,7 @@ import React from 'react';
 import {StatusBar} from 'react-native';
 
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import Game from 'src/features/game/screens/game/Game';
+import Game from 'src/features/breakout/screens/breakoutMain/Breakout';
 
 const App = () => {
   return (
