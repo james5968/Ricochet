@@ -1,5 +1,9 @@
 # Ricochet
 
+
+https://user-images.githubusercontent.com/2874380/171059717-357364fe-4648-427c-a20e-f9af81c562d2.mov
+
+
 ## Prerequisites
 
 - [Node.js > 16](https://nodejs.org) and npm (Recommended: Use [nvm](https://github.com/nvm-sh/nvm))
